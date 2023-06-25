@@ -11,6 +11,7 @@ import CreateArea from "./CreateArea";
 
 function App() {
   const [notesCollections , setNotesCollections] = useState([]);
+  const [focus , setFocus] = useState(false);
 
   function addNote(note){
     setNotesCollections(
@@ -27,11 +28,18 @@ function App() {
       })
     )
   }
+  function changeFocus(){
+    setFocus(true)
+  }
   
   return (
     <div>
       <Header />
-      <CreateArea addNote={addNote} />
+
+      {
+          (!focus) ? <CreateArea addNote={addNote}  row={1} effect={false} inputType={"hidden"} updateFocus = {changeFocus}/> :
+        <CreateArea addNote={addNote}  row={3} effect={true} inputType={"text"} updateFocus = {changeFocus}/>
+      }
       {
         notesCollections.map((x,index)=>{
           return <Note key={index+2} id={index} title={x.title} content={x.content} delete={deleteNote}/>

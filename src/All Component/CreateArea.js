@@ -1,10 +1,21 @@
 import React , {useState} from "react";
+import AddIcon from '@mui/icons-material/Add';
+import Fab from '@mui/material/Fab';
+import { Zoom } from '@mui/material';
+
+
+
+
 
 function CreateArea(props) {
+
+
   const [keep , setKeep] = useState({
     title:"",
     content:""
   });
+
+
   function keepText(event){
     const {name , value} = event.target;
     setKeep({
@@ -12,12 +23,17 @@ function CreateArea(props) {
       [name]: value
     })
   }
+
+
   return (
     <div>
-      <form>
-        <input onChange={keepText} name="title" placeholder="Title" value={keep.title}/>
-        <textarea onChange={keepText} name="content" placeholder="Take a note..." rows="3"  value={keep.content}/>
-        <button type="button" onClick={()=>{
+      <form className="create-note">
+        <input onChange={keepText} name="title" type={props.inputType} placeholder="Title" value={keep.title}/>
+        <textarea onChange={keepText} onClick={()=>{
+          props.updateFocus();
+        }} name="content" placeholder="Take a note..." rows={props.row}  value={keep.content}/>
+        <Zoom in={props.effect}>
+        <Fab type="button" onClick={()=>{
             if(keep.title.length <= 0){
               alert("Tittle cannot be empty")
             }else if(keep.content.length <= 0){
@@ -31,7 +47,8 @@ function CreateArea(props) {
                 }
               )
             }
-        }}>Add</button>
+        }}><AddIcon/></Fab>
+        </Zoom>
       </form>
     </div>
   );
